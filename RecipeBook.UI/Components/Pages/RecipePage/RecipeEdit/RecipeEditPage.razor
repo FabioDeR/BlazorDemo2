@@ -1,0 +1,32 @@
+﻿@page "/recipe"
+<h3>QueryBuilderDemo</h3>
+
+
+<RadzenTemplateForm  Data="@bindInputs" TItem="List<BindInput>" Submit=ValidInput>
+    <RecipeBook.UI.Components.Pages.RecipePage.RecipeEdit.Componant.PersonalDataFilter bindInputs="@bindInputs" UniqueFilters="true" TItem="QueryBuilderElement">
+        <Properties>
+            @foreach (var item in QueryBuilders)
+            {
+                var bindInput = bindInputs.Find(e => e.LabelName == item.LabeledText);
+                var selectedFilterOperator = (FilterOperator)bindInput.FilterOperator;
+                <RecipeBook.UI.Components.Pages.RecipePage.RecipeEdit.Componant.PersonalDataProperty  @ref="@_radzenDataFilterProperty" FilterValue="@bindInput.Value" FilterOperator="@((FilterOperator)bindInput.FilterOperator)" Property="@item.LabeledText"  TItem="QueryBuilderElement">
+                    <FilterTemplate Context="data">
+                        @if (item.TypeOfFilter == "DropDownList")
+                        {
+                            <RadzenDropDown Data="@item.DropDownItems" Change="@((args) => bindInput.Value = (string)args)" ValueProperty="PK" TextProperty="Name" Value="@bindInput?.Value" TValue="string" />
+                        }
+                        else if (item.TypeOfFilter == "STRING")
+                        {
+                            <RadzenTextBox Change="@((args) => bindInput.Value = (string)args)" Value="@bindInput?.Value" TValue="string" />
+                        }
+                    </FilterTemplate>
+                </RecipeBook.UI.Components.Pages.RecipePage.RecipeEdit.Componant.PersonalDataProperty>
+            }
+        </Properties>
+    </RecipeBook.UI.Components.Pages.RecipePage.RecipeEdit.Componant.PersonalDataFilter>
+    <button type="submit">Apply</button>
+</RadzenTemplateForm>
+
+
+
+

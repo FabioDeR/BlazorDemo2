@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="RecipeBook.UI.styles.css" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/software.css">
+    <link rel="stylesheet" href="css/main.min.css" />
+
+    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender:true)" />
+</head>
+
+<body>
+    <Routes @rendermode="new InteractiveServerRenderMode(prerender:true)" />
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script src="https://kit.fontawesome.com/4edcb0b1e4.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

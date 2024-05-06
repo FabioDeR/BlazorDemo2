@@ -1,0 +1,29 @@
+﻿@import "../mixin/_mixins.scss";
+@import "../variable/_variable.scss";
+.layout-admin {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+
+    .sidebar-admin {
+        height: 100vh;
+        position: static;
+        background-color: white;
+
+        .hearder-admin {
+            color: #ffffff;
+            font-size: 20px;
+            padding: 10px;
+            font-weight: 600;
+            text-align: center;
+            grid: unset;
+        }
+
+        @include panel-menu(false);
+    }
+
+    .admin-body {
+        background: $bg-image;
+    }
+}

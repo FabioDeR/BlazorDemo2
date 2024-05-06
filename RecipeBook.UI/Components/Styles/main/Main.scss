@@ -1,0 +1,111 @@
+﻿@import "../variable/_variable.scss";
+@import "../components/_components.scss";
+
+
+
+@font-face{
+    font-family:"Raleway";
+    src: url(../../../wwwroot/font/Raleway-VariableFont_wght.ttf)
+}
+@font-face {
+    font-family: "Riot";
+    src: url(../../../wwwroot/font/ProtestRiot-Regular.ttf)
+}
+
+:root {
+    --rz-sidebar-background-color: #ffffff;
+    --rz-header-background-color: #FF7B74;
+    --rz-panel-menu-hover-background-color: #FF7B74;
+    --rz-panel-menu-background-color: #ffffff;
+    --rz-panel-menu-color: #575757;
+    --rz-panel-menu-item-active-background-color: #575757;
+    --rz-panel-menu-item-active-indicator: #FF7B74;
+    --rz-body-background-color: #{$bg-image};
+    --rz-dropdown-item-hover-background-color: #{$red-color};
+    --rz-dropdown-item-selected-background-color: #{$gray-color};
+    --rz-dropdown-item-selected-hover-background-color: #{$red-color};
+    --rz-sidebar-color: #{$gray-color};
+    --rz-grid-header-background-color: #{$red-color};
+    --rz-grid-header-color: #ffffff;
+    --rz-grid-header-line-height: normal;
+    --rz-grid-header-font-weight: bold;
+    --rz-grid-stripe-background-color: #{$red-colorhls};
+    --rz-grid-header-font-size: 16px;
+    --rz-body-font-size: 18px;
+    --rz-primary: #{$red-color};
+    --rz-grid-sort-icon-color: #{$gray-color};
+    --rz-grid-sort-icon-height: 1.1rem;
+    --rz-dialog-mask-background-color: transparent;
+    --rz-dialog-title-background-color: #{$red-color};
+    --rz-dialog-content-padding: unset;
+    --rz-paginator-background-color: transparent;
+    --rz-grid-background-color: #ffffff;
+    --rz-grid-right-cell-border: unset;
+    --rz-grid-header-cell-border: unset;
+    --rz-grid-column-resizer-helper-background-color: #{$gray-color};
+    --rz-grid-cell-border: unset;
+    --rz-scrollbar-color: #{$red-color};
+}
+
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+body {
+    font-family: Raleway;   
+    color:$gray-color;
+    line-height:normal;
+}
+
+.body-recipe {
+    background: $bg-image;
+    margin: unset;
+    padding: unset;
+    border-radius: unset;
+    font-weight: 400;
+    color:$gray-color;
+    overflow:auto;
+}
+
+
+.recipe-layout {
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "rz-header rz-header" "rz-sidebar rz-body";
+    transform: none;
+}
+
+
+.rz-layout .rz-body {
+    overflow: auto;
+}
+.rz-sidebar {
+    grid-area: rz-sidebar;
+    position: fixed;
+}
+.rz-button {
+    border: none;
+    display: inline-block;
+    text-decoration: none !important;
+    position: relative;
+    background: #FF7B74;
+    color: #fff !important;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 11px 14px;
+    min-width: 80px;    
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+
+.rz-sortable-column .rzi-sort {
+    color: $gray-color;
+    margin-left:20px;
+}

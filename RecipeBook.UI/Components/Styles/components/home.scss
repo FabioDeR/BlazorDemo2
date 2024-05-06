@@ -1,0 +1,232 @@
+﻿@import "../variable/_variable.scss";
+
+.container-home {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+
+    .container-header {
+        background: $bg-header-home;
+        min-height: 768px;
+        background-position: 100% 105%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 50px 30px;
+
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            gap: 20px;
+            color: #ffffff;
+            padding: 15px;
+            min-width: 50%;
+            font-weight: 500;
+            width: 75%;
+
+            .link-login{
+                color:$gray-color
+                
+            } 
+            .title-home {
+                font-family: "Riot";
+                color: #ffffff;
+                text-align: left;
+            }
+
+            .btn-community {
+                color: $red-color;
+                padding: 11px 15px;
+                min-width: 110px;
+                text-align: left;
+                border: none;
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: none;
+                border-radius: 3px;
+                transition: all 0.2s ease-in;
+
+                .icon-community {
+                    align-self: center;
+                    color: red;
+                    margin-left: 40px;
+                    filter: invert(45%) sepia(6%) saturate(5492%) hue-rotate(314deg) brightness(140%) contrast(107%);
+                }
+
+                &:hover {
+                    padding: 11px 15px !important;
+                    min-width: 110px;
+                    text-align: left !important;
+                    background: #FF7B74;
+                    color: white;
+                    box-shadow: inset 0 0 30px rgba(0,0,0,.2);
+
+                    .icon-community {
+                        filter: invert(95%) sepia(0%) saturate(1536%) hue-rotate(168deg) brightness(107%) contrast(100%);
+                    }
+                }
+            }
+        }
+
+        .register-forms {
+            padding: 17px 20px 0;
+            background: #fff;
+            padding-bottom: 20px !important;
+            color: $gray-color;
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+
+            .register-description {
+                color: #666;
+                font-size: 14px;
+            }
+
+            .title-forms {
+                padding: 16px 0 11px;
+                font-weight: 700;
+                font-size: 16px;
+                color: #666;
+            }
+
+            .input-forms {
+                margin-top: 15px;
+            }
+           
+            .btn-ok {
+                margin-top: 25px;
+                font-size: 12px;
+                border: none;
+                color: #fff !important;
+                text-align: center;
+                font-weight: 600 !important;
+                padding: 9px 14px;
+                border-radius: 3px;
+                text-transform: uppercase;
+                white-space: nowrap;
+                background-color: $red-color;
+                width: 100%;
+                align-self: center;
+            }
+        }
+    }
+
+    .section-recipe-home {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 50px 30px;
+
+
+
+        .container-title {
+            background-color: $red-color;
+            width: 500px;
+            height: 60px;
+            padding: 13px;
+            border-radius: 5px;
+            align-self: center;
+
+
+            .title-section {
+                color: #fff;
+                text-align: center;
+                font-size: 27px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+    }
+
+    .section-content {
+        display: flex;
+        background-color: white;
+        padding: 15px;
+        flex-direction: row;
+        border-radius: 3px;
+        gap: 23px;
+
+        &.text-right {
+            border-right: 20px solid $or;
+        }
+
+        &.text-left {
+            border-left: 20px solid $or;
+        }
+
+
+        .content-text {
+            border-top: 1px solid $red-colorhls;
+            border-bottom: 3px solid $red-colorhls;
+            color: $gray-color;
+            font-size: 20px;
+            padding: 18px 0 20px;
+            align-self: center;
+        }
+
+        .video-presentation {
+            border-radius: 3px;
+            min-width: 600px;
+            height: 350px;
+            border: 3px solid $or;
+        }
+    }
+
+    .container-footer {
+        background-color: #fff;
+
+        .container-info {
+            padding: 30px 0 0;
+            box-shadow: 0 -1px 2px rgba(0,0,0,.1);
+            display: inline-flex;
+            justify-content: center;
+            width: 100%;
+            gap: 15px;
+        }
+
+        .container-last {
+            background-color: $red-color;
+            padding: 30px 30px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 15px;
+            width: 100%;
+            border-bottom: 3px solid $or;
+
+            h2 {
+                color: #fff;
+            }
+
+            .btn-purchase {
+                color: #F4716A;
+                padding: 11px 15px;
+                min-width: 110px;
+                text-align: left;
+                border: none;
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: none;
+                border-radius: 3px;
+                transition: all 0.2s ease-in;
+                background-color: #ffffff;
+
+                &:hover {
+                    padding: 11px 15px;
+                    min-width: 110px;
+                    text-align: left;
+                    background: #FF7B74;
+                    color: white;
+                    box-shadow: inset 0 0 30px rgba(0,0,0,.2);
+                }
+            }
+        }
+    }
+}
+
+

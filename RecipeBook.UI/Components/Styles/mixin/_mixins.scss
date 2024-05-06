@@ -1,0 +1,27 @@
+﻿@import "../variable/_variable.scss";
+
+@mixin panel-menu($islastchild: true) {
+    .panel-menu {
+        font-size: 18px;
+        height: calc(100% - 50px);
+        display : flex;
+        flex-direction:column;
+       
+        .panel-menu-item {
+            border-bottom: 3px solid DECFB8;
+
+            @if($islastchild) {
+                &:last-child {
+                    border-bottom: unset;
+                    border-top: 1px solid #DECFB8;
+                    margin-top: auto;
+                }
+            }
+
+        }
+    }
+}
+@mixin button{
+    background-color: red;
+    
+}

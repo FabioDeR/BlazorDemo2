@@ -1,0 +1,25 @@
+﻿@page "/admin"
+@inherits LayoutComponentBase
+@layout MainLayout
+
+<div class="layout-admin">
+    <div class="sidebar-admin">
+        <RadzenHeader class="hearder-admin">
+            <RadzenLabel Text="Adminstration"/>                
+        </RadzenHeader>
+        <RadzenPanelMenu class="panel-menu">
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/admin/categoryproductoverview" Text="Category Product" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/admin/categoryrecipeoverview" Text="Category Recipe" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/admin/productoverview" Text="Product" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/admin/typeofproductpeoverview" Text="Type Of Product" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/admin/unitofmeasurementpeoverview" Text="UnitOfMeasurement" />
+        </RadzenPanelMenu>
+    </div>
+    <div class="admin-body p-3">
+        <div>
+            @Body
+        </div>
+    </div>
+</div>
+
+

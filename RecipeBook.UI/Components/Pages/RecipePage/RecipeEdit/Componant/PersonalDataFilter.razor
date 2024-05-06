@@ -1,0 +1,39 @@
+﻿@typeparam TItem
+﻿@using System.Linq.Expressions
+@inherits RadzenDataFilter<TItem>
+
+@if (Properties != null)
+{
+        <CascadingValue Value=this>
+            @Properties
+        </CascadingValue>
+}
+
+@if (Visible)
+{
+    <div @ref="@Element" style="@Style" @attributes="Attributes" class="@GetCssClass()" id="@GetId()">
+        <RadzenSelectBar @bind-Value=LogicalFilterOperator Change="@((LogicalFilterOperator args) => InvokeAsync(ChangeState))" Size="ButtonSize.Small" class="rz-datafilter-operator-bar">
+            <Items>
+                <RadzenSelectBarItem Text="@AndOperatorText" Value="LogicalFilterOperator.And" title="@AndOperatorText" />
+                <RadzenSelectBarItem Text="@OrOperatorText" Value="LogicalFilterOperator.Or" title="@OrOperatorText" />
+            </Items>
+        </RadzenSelectBar>
+        <RadzenButton title="@ClearFilterText" class="rz-datafilter-item-clear rz-datafilter-all-items-clear" Icon="clear" Click="@(args => MyClearFilter())" Visible=@(Filters.Any()) Variant="Variant.Text" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Dark" />
+
+        <ul class="rz-datafilter-group">
+            <CascadingValue TValue="List<BindInput>" Value="@bindInputs">
+
+            @foreach (var filter in Filters)
+            {
+                <li class="rz-datafilter-item @(filter.Filters != null ? "rz-datafilter-group-item" : "")">
+                    <PersonalDataFilterItem @key=@filter.GetHashCode() PersonalDataFilter="@this" Filter="@filter" />
+                </li>
+            }
+            </CascadingValue>
+            <li class="rz-datafilter-item rz-datafilter-bar">
+                <RadzenButton Icon="add" Click="@(args => AddFilter())" Size="ButtonSize.Small" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" />
+            </li>
+        </ul>
+    </div>
+}
+

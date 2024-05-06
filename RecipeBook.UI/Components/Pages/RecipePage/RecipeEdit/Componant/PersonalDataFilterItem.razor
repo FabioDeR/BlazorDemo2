@@ -1,0 +1,226 @@
+﻿@typeparam TItem
+@if (Filter.Filters != null)
+{
+    <RadzenSelectBar @bind-Value=Filter.LogicalFilterOperator Change="@((LogicalFilterOperator args) => { InvokeAsync(ChangeState); })" Size="ButtonSize.Small">
+        <Items>
+            <RadzenSelectBarItem Text="@PersonalDataFilter.AndOperatorText" Value="LogicalFilterOperator.And" title="@PersonalDataFilter.AndOperatorText" />
+            <RadzenSelectBarItem Text="@PersonalDataFilter.OrOperatorText" Value="LogicalFilterOperator.Or" title="@PersonalDataFilter.OrOperatorText" />
+        </Items>
+    </RadzenSelectBar>
+
+    <RadzenButton title="@PersonalDataFilter.RemoveFilterText" class="rz-datafilter-item-clear" Icon="clear" Click="@RemoveFilter" Variant="Variant.Text" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Dark" />
+    
+}
+else
+{
+    <RadzenDropDown @bind-Value="@Filter.Property" Data="@(PersonalDataFilter?.properties)" TextProperty="Title" ValueProperty="Property" TValue="string"
+                    DisabledProperty="@(PersonalDataFilter?.UniqueFilters == true ? nameof(personalProperties.IsSelected) : null)"
+                    Change="@OnPropertyChange" AllowFiltering="@(PersonalDataFilter?.AllowColumnFiltering ?? false)" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" class="rz-datafilter-property">
+        <Template>
+            @{
+                var property = (PersonalDataProperty<TItem>)context;
+            }
+            @(property.Title ?? property.Property)
+        </Template>
+    </RadzenDropDown>
+    if (personalProperties != null)
+    {
+        <RadzenDropDown @onclick:preventDefault="true" Data="@(personalProperties.GetFilterOperators().Select(t => new { Value = personalProperties.GetFilterOperatorText(t), Key = t }))"
+                        TextProperty="Value" ValueProperty="Key" TValue="FilterOperator?" @bind-Value="@Filter.FilterOperator" Change="@OnOperatorChange" class="rz-datafilter-operator" />
+        @if (personalProperties.FilterTemplate != null)
+        {
+            <div class="rz-datafilter-editor" style="display:flex">
+                @personalProperties.FilterTemplate(Filter)
+            </div>
+        }
+        <RadzenButton title="@PersonalDataFilter.RemoveFilterText" class="rz-datafilter-item-clear" Icon="clear" Click="@RemoveFilter" Variant="Variant.Text" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Dark" />
+    }
+}
+
+@code{
+    [Parameter]
+    public PersonalDataFilter<TItem> PersonalDataFilter { get; set; }
+
+    [Parameter]
+    public PersonalDataFilterItem<TItem> Parent { get; set; }
+
+    CompositeFilterDescriptor _filter;
+
+    PersonalDataProperty<TItem> personalProperties;
+
+    [Parameter] public BindInput bindInput { get; set; } = new();
+
+
+    [Parameter]
+    public CompositeFilterDescriptor Filter
+    {
+        get
+        {
+            return _filter;
+        }
+        set
+        {
+            _filter = value;
+
+            if (personalProperties == null && Filter.Filters == null)
+            {
+                if (Filter.Property != null)
+                {
+                    personalProperties = PersonalDataFilter?.properties.FirstOrDefault(f => object.Equals(f.Property, Filter.Property));
+                }
+                else if (personalProperties == null && PersonalDataFilter?.UniqueFilters == true)
+                {
+                    personalProperties = PersonalDataFilter?.properties.FirstOrDefault(f => f.IsSelected == false);
+                }
+                else
+                {
+                    personalProperties = PersonalDataFilter?.properties.FirstOrDefault();
+                }
+
+                if (personalProperties != null)
+                {
+                    personalProperties.FilterValueChange -= OnFilterValueChange;
+                    personalProperties.FilterValueChange += OnFilterValueChange;
+
+                    if (PersonalDataFilter?.UniqueFilters == true)
+                    {
+                        personalProperties.IsSelected = true;
+                    }
+
+                    Filter.Property = personalProperties.Property;
+
+                    if (Filter.FilterOperator == null)
+                    {
+                        Filter.FilterOperator = personalProperties.GetFilterOperator();
+                    }
+
+                    else if (!personalProperties.GetFilterOperators().Contains(Filter.FilterOperator.Value))
+                    {
+                        Filter.FilterOperator = personalProperties.GetFilterOperators().FirstOrDefault();
+                    }
+
+                    var v = personalProperties.GetFilterValue();
+                    if (v != null)
+                    {
+                        Filter.FilterValue = v;
+                    }
+                }
+            }
+        }
+    }
+
+    void OnFilterValueChange(object value)
+    {
+        if (personalProperties != null)
+        {
+            Filter.FilterValue = personalProperties.GetFilterValue();
+        }
+    }
+
+
+
+
+    async Task OnPropertyChange(object p)
+    {
+        personalProperties.FilterValueChange -= OnFilterValueChange;
+        personalProperties.IsSelected = false;
+
+        personalProperties = PersonalDataFilter.properties.Where(c => object.Equals(c.Property, p)).FirstOrDefault();
+
+        personalProperties.FilterValueChange += OnFilterValueChange;
+        if (PersonalDataFilter?.UniqueFilters == true)
+        {
+            personalProperties.IsSelected = true;
+        }
+        Filter.FilterValue = null;
+
+        var defaultOperator = typeof(System.Collections.IEnumerable).IsAssignableFrom(personalProperties.FilterPropertyType) ? FilterOperator.Contains : default(FilterOperator);
+
+        if (personalProperties.GetFilterOperators().Any(o => o == personalProperties.FilterOperator))
+        {
+            Filter.FilterOperator = personalProperties.FilterOperator;
+        }
+        else if (personalProperties.GetFilterOperators().Contains(defaultOperator))
+        {
+            Filter.FilterOperator = defaultOperator;
+        }
+        else
+        {
+            Filter.FilterOperator = personalProperties.GetFilterOperators().FirstOrDefault();
+        }
+
+    }
+
+    bool IsOperatorNullOrEmpty()
+    {
+        if (Filter != null)
+        {
+            return Filter.FilterOperator == FilterOperator.IsEmpty || Filter.FilterOperator == FilterOperator.IsNotEmpty ||
+                    Filter.FilterOperator == FilterOperator.IsNull || Filter.FilterOperator == FilterOperator.IsNotNull;
+        }
+
+        return false;
+    }
+
+    async Task OnOperatorChange(object p)
+    {
+        if (IsOperatorNullOrEmpty())
+        {
+            Filter.FilterValue = null;
+        }
+        Console.WriteLine(bindInput);
+    }
+
+        async Task AddFilter(bool isGroup)
+        {
+            if (PersonalDataFilter?.UniqueFilters == true && PersonalDataFilter.properties.All(f => f.IsSelected))
+            {
+                return;
+            }
+            if (isGroup)
+            {
+                Filter.Filters = Filter.Filters.Concat(new CompositeFilterDescriptor[]
+                    {
+                    new CompositeFilterDescriptor()
+                    {
+                        Filters = Enumerable.Empty<CompositeFilterDescriptor>()
+                    }
+                    }
+                );
+            }
+            else
+            {
+                Filter.Filters = Filter.Filters.Concat(new CompositeFilterDescriptor[] { new CompositeFilterDescriptor() });
+            }
+
+            if (PersonalDataFilter.Auto)
+            {
+                await PersonalDataFilter.Filter();
+            }
+        }
+
+        async Task RemoveFilter()
+        {
+            if (personalProperties != null)
+            {
+                personalProperties.IsSelected = false;
+            }
+            personalProperties = null;
+
+            if (Parent != null)
+            {
+                Parent.Filter.Filters = Parent.Filter.Filters.Where(f => f != Filter).ToList();
+                await Parent.ChangeState();
+            }
+            else
+            {
+                PersonalDataFilter.Filters = PersonalDataFilter.Filters.Where(f => f != Filter).ToList();
+                await PersonalDataFilter.ChangeState();
+            }
+        }
+
+        internal async Task ChangeState()
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+}

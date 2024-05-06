@@ -1,0 +1,58 @@
+﻿@page "/admin/categoryrecipeoverview"
+@layout AdminLayout
+
+<PageTitle>Category Recipe</PageTitle>
+<RadzenText TextStyle="TextStyle.DisplayH4" Text="Category Recipe" />
+<RadzenDataGrid @ref="@categoryRecipeGrid"
+                class="mt-5"
+                AllowColumnResize="true"
+                AllowAlternatingRows="true"
+                AllowSorting="true"
+                Responsive="true"
+                PageSize="11"
+                AllowPaging="true"
+                RowCreate="@OnCreateRow"
+                RowUpdate="@OnUpdateRow"
+                EditMode="DataGridEditMode.Single"
+                IsLoading="@isLoading"
+                Sort="@Reset"
+                Page="@Reset"
+                Filter="@Reset"
+                PagerHorizontalAlign="HorizontalAlign.Left"
+                PagerPosition="PagerPosition.Bottom"
+                Data="@GetListCategoryRecipeVMs"
+                TItem="GetListCategoryRecipeVM">
+    <Columns>
+        <RadzenDataGridColumn TItem="GetListCategoryRecipeVM" Property="Id" Title="ID" Width="70px" />
+        <RadzenDataGridColumn TItem="GetListCategoryRecipeVM" Property="Name" Title="Name" Width="70px">
+            <EditTemplate Context="data">
+                <RadzenTextBox class="input-forms" @bind-Value="data.Name" Name="name" Placeholder="légume" />
+                <RadzenRequiredValidator Component="name" Text="Name is required" />
+                <RadzenLengthValidator Component="name" Max="50" Text="Name should be at most 50 characters" Style="position: absolute" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn Filterable="false" Sortable="false" TItem="GetListCategoryRecipeVM" Width="55px">
+            <Template Context="data">
+                <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(args => EditRow(data))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Size="ButtonSize.Medium" class="ms-1" Click="@(args => DeleteRow(data))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </RadzenStack>
+            </Template>
+            <EditTemplate Context="data">
+                <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@((args) => SaveRow(data))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Size="ButtonSize.Medium" class="ms-1" Click="@((args) => CancelEdit(data))">
+                    </RadzenButton>
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" class="ms-1" Click="@(args => DeleteRow(data))" />
+                </RadzenStack>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+<RadzenButton Click="@InsertRow" Icon="add" title="new add" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Large" class="mt-3 rz-border-radius-10 rz-shadow-10 float-end" />
+
+

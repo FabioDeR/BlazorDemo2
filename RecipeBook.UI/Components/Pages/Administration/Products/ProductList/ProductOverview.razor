@@ -1,0 +1,66 @@
+﻿@page "/admin/productoverview"
+@layout AdminLayout
+
+<RadzenText TextStyle="TextStyle.DisplayH4" Text="Product" />
+<RadzenDataGrid @ref="@ProductGrid"
+                class="mt-5"
+                AllowColumnResize="true"
+                AllowAlternatingRows="true"
+                AllowSorting="true"
+                Responsive="true"
+                PageSize="11"
+                AllowPaging="true"
+                RowCreate="@OnCreateRow"
+                RowUpdate="@OnUpdateRow"
+                EditMode="DataGridEditMode.Single"
+                IsLoading="@isLoading"
+                Sort="@Reset"
+                Page="@Reset"
+                ColumnWidth="200px"
+                Filter="@Reset"
+                PagerHorizontalAlign="HorizontalAlign.Left"
+                PagerPosition="PagerPosition.Bottom"
+                Data="@GetListProductVMs"
+                TItem="GetListProductVM">
+    <Columns>
+        <RadzenDataGridColumn TItem="GetListProductVM" Property="Id" Title="ID" />
+        <RadzenDataGridColumn TItem="GetListProductVM" Property="Name" Title="Name">
+            <EditTemplate Context="data">
+                <RadzenTextBox class="input-forms" @bind-Value="data.Name" Name="name" Placeholder="kilo..." />
+                <RadzenRequiredValidator Component="name" Text="Name is required" />
+                <RadzenLengthValidator Component="name" Max="50" Text="Name should be at most 50 characters" Style="position: absolute" />
+            </EditTemplate>
+        </RadzenDataGridColumn>       
+        <RadzenDataGridColumn TItem="GetListProductVM" Property="TypeOfProductId" Title="Type of Unit Id">
+            <EditTemplate Context="data">
+                <RadzenDropDown Name="type" @bind-Value="data.TypeOfProductId" Data="@TypeOfProductVMs" Placeholder="Solide..." TextProperty="Name" ValueProperty="Id" />
+                <RadzenDropDown @bind-Value=@selectedCategoryProduct Data=@CategoryProductVMs TextProperty="Name" ValueProperty="Id"
+                                Multiple=true AllowClear=true Placeholder="Select category" Chips=true />
+                <RadzenRequiredValidator Component="type" Text="Please Select type" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn Filterable="false" Sortable="false" Resizable="false" TItem="GetListProductVM" MinWidth="300px">
+            <Template Context="data">
+                <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.ExtraSmall" Click="@(args => EditRow(data))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.ExtraSmall" class="ms-1" Click="@(args => DeleteRow(data))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </RadzenStack>
+            </Template>
+            <EditTemplate Context="data">
+                <RadzenStack Orientation="Orientation.Horizontal" Gap="2" JustifyContent="JustifyContent.Center">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.ExtraSmall" Click="@((args) => SaveRow(data))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Size="ButtonSize.ExtraSmall" Click="@((args) => CancelEdit(data))">
+                    </RadzenButton>
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.ExtraSmall" Click="@(args => DeleteRow(data))" />
+                </RadzenStack>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+<RadzenButton Click="@InsertRow" Icon="add" title="new add" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Large" class="mt-3 rz-border-radius-10 rz-shadow-10 float-end" />
+
+

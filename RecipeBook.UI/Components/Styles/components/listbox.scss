@@ -1,0 +1,36 @@
+﻿@import "../variable/_variable.scss";
+.list-box {
+    width: 300px;
+    height: 300px;
+    background-color: transparent;
+
+    .rz-chkbox {
+        display: none;
+    }
+
+    .rz-listbox-header {
+        display: flex;
+        align-items: center;
+        padding: var(--rz-listbox-header-padding);
+        border: unset;
+        margin-bottom: 10px;
+    }
+
+    .rz-listbox-list-wrapper {
+        background-color: #ddd;
+    }
+
+
+    .rz-listbox-filter-container {
+        width: 100% !important;
+        border: 1px solid $gray-color;
+        color: #666;
+        font-size: 13px;
+        font-weight: 400;
+        padding: 9px 10px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 7px;
+        background-color: #fff
+    }
+}

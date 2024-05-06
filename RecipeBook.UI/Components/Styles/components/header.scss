@@ -1,0 +1,29 @@
+﻿
+
+
+.header {
+    font-size: 30px;
+    border-bottom: 3px solid $or;
+
+
+    .sidebar-toggle {
+        color: #ffffff;
+
+        &:hover {
+            color: #575757;
+        }
+    }
+
+    .label-header {
+        font-family: "Riot";
+
+
+        .label-start {
+            color: #ffffff
+        }
+
+        .label-end {
+            color: #575757
+        }
+    }
+}

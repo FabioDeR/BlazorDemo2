@@ -1,0 +1,9 @@
+﻿@import "../variable/_variable.scss";
+@import "../mixin/_mixins.scss";
+
+.sidebar {
+    @include panel-menu;
+    border-right: 5px solid $or;
+}
+
+

@@ -1,0 +1,32 @@
+﻿@inherits LayoutComponentBase 
+
+<RadzenLayout class="recipe-layout">
+    <RadzenHeader class="header">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenSidebarToggle class="sidebar-toggle" Click="@(() => sidebarExpanded = !sidebarExpanded)" />
+            <RadzenLabel class="label-header">
+                <a href="/" class="label-start">Recipe</a><span class="label-end">book</span>
+            </RadzenLabel>
+        </RadzenStack>       
+    </RadzenHeader>
+    <RadzenSidebar Responsive="false" Style="width: max-content" class="sidebar">
+        <RadzenPanelMenu DisplayStyle="@(sidebarExpanded ? MenuItemDisplayStyle.IconAndText : MenuItemDisplayStyle.Icon)" class="panel-menu">
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/recipe" Text="Recipe" Icon="restaurant" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/product" Text="Product" Icon="inventory_2" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/panning" Text="Planning" Icon="calendar_month" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/frigo" Text="Frigo" Icon="kitchen" />
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/historic" Text="Historic" Icon="history" />            
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/admin/categoryproductoverview" Text="Administration" Icon="settings" />
+        </RadzenPanelMenu>     
+   
+    </RadzenSidebar>
+    <RadzenBody class="body-recipe">
+        <div>
+            @Body
+        </div>
+    </RadzenBody>   
+    <RadzenComponents />
+</RadzenLayout>
+
+
+
