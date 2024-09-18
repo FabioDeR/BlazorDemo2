@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase 
+﻿@using RecipeBook.UI.Components.Shared.Store
+@inherits LayoutComponentBase
+@inject DispatcherEmployee dispatch
+
 
 <RadzenLayout class="recipe-layout">
     <RadzenHeader class="header">
@@ -7,7 +10,7 @@
             <RadzenLabel class="label-header">
                 <a href="/" class="label-start">Recipe</a><span class="label-end">book</span>
             </RadzenLabel>
-        </RadzenStack>       
+        </RadzenStack>
     </RadzenHeader>
     <RadzenSidebar Responsive="false" Style="width: max-content" class="sidebar">
         <RadzenPanelMenu DisplayStyle="@(sidebarExpanded ? MenuItemDisplayStyle.IconAndText : MenuItemDisplayStyle.Icon)" class="panel-menu">
@@ -15,16 +18,18 @@
             <RadzenPanelMenuItem class="panel-menu-item" Path="/product" Text="Product" Icon="inventory_2" />
             <RadzenPanelMenuItem class="panel-menu-item" Path="/panning" Text="Planning" Icon="calendar_month" />
             <RadzenPanelMenuItem class="panel-menu-item" Path="/frigo" Text="Frigo" Icon="kitchen" />
-            <RadzenPanelMenuItem class="panel-menu-item" Path="/historic" Text="Historic" Icon="history" />            
+            <RadzenPanelMenuItem class="panel-menu-item" Path="/historic" Text="Historic" Icon="history" />
             <RadzenPanelMenuItem class="panel-menu-item" Path="/admin/categoryproductoverview" Text="Administration" Icon="settings" />
-        </RadzenPanelMenu>     
-   
+           
+        </RadzenPanelMenu>
+
+           
     </RadzenSidebar>
     <RadzenBody class="body-recipe">
         <div>
-            @Body
+                    @Body
         </div>
-    </RadzenBody>   
+    </RadzenBody>
     <RadzenComponents />
 </RadzenLayout>
 

@@ -1,13 +1,16 @@
 using Radzen;
 using RecipeBook.Service.Extensions;
 using RecipeBook.UI.Components;
+using RecipeBook.UI.Components.Shared.Store;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-builder.Services.AddServices();
+builder.Services.AddScoped<IEmployeeStore, EmployeeStore>();
+builder.Services.AddScoped<EmployeeState>();
+builder.Services.AddScoped<DispatcherEmployee>();
 builder.Services.AddRadzenComponents();
 var app = builder.Build();
 
